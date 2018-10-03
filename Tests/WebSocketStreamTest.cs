@@ -44,14 +44,16 @@ namespace WebSocketStream.Tests {
         [Fact]
         public async Task ClientServerTest() {
             WebSocketServer server = new WebSocketServer();
-            WebSocketServer.RequestedEventArgs requested = null;
-            WebSocketServer.ConnectedEventArgs connected = null;
+            TaskCompletionSource<WebSocketServer.RequestedEventArgs> requested =
+                new TaskCompletionSource<WebSocketServer.RequestedEventArgs>();
+            TaskCompletionSource<WebSocketServer.ConnectedEventArgs> connected =
+                new TaskCompletionSource<WebSocketServer.ConnectedEventArgs>();
             byte[] clientMessage = new byte[] { 100, 101, 102, 103 };
             byte[] serverMessage = new byte[] { 80, 81, 82, 83 };
             byte[] clientBuffer = new byte[1024];
 
             server.Requested += (sender, e) => {
-                requested = e;
+                requested.SetResult(e);
                 return Task.CompletedTask;
             };
 
@@ -70,7 +72,7 @@ namespace WebSocketStream.Tests {
 
                 Assert.Equal(0, serverRead);
 
-                connected = e;
+                connected.SetResult(e);
             };
 
             Task listenTask = server.Listen(PORT);
@@ -84,8 +86,11 @@ namespace WebSocketStream.Tests {
 
             await client.CloseAsync();
 
-            Assert.NotNull(requested);
-            Assert.NotNull(connected);
+            WebSocketServer.RequestedEventArgs requestedArgs = await requested.Task;
+            WebSocketServer.ConnectedEventArgs connectedArgs = await connected.Task;
+
+            Assert.NotNull(requestedArgs);
+            Assert.NotNull(connectedArgs);
 
             server.Dispose();
             await listenTask;
