@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.WebSockets;
 
-namespace WebSocketStream {
+namespace WSStream {
     public class WebSocketStream : Stream {
         public static WebSocketStream Connect(string uri) {
             return Connect(new Uri(uri));

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace WebSocketStream.Tests {
+namespace WSStream.Tests {
     public class WebSocketStreamTest {
         private int PORT = 8080;
 

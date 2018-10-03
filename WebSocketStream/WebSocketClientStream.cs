@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net.WebSockets;
 
-namespace WebSocketStream {
+namespace WSStream {
     public class WebSocketClientStream : WebSocketStream {
         private Uri uri;
         private Task connect;

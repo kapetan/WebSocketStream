@@ -9,7 +9,7 @@ Stream interface implemented on top of `System.Net.WebSockets`.
 Client example.
 
 ```C#
-using WebSocketStream;
+using WSStream;
 
 WebSocketStream socket = WebSocketStream.Connect("ws://localhost:8080");
 await socket.WriteAsync(new byte[] { 100, 101 }, 0, 2);
@@ -22,7 +22,7 @@ await socket.CloseAsync();
 The server uses a `HttpListener` under the hood for listening to incoming requests.
 
 ```C#
-using WebSocketStream;
+using WSStream;
 
 WebSocketServer server = new WebSocketServer();
 

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.WebSockets;
 
-namespace WebSocketStream {
+namespace WSStream {
     public class WebSocketServer : IDisposable {
         public event Func<object, RequestedEventArgs, Task> Requested;
         public event Func<object, ConnectedEventArgs, Task> Connected;
