@@ -54,8 +54,10 @@ namespace WebSocketStream {
         }
 
         private async Task OnEvent<T>(Func<object, T, Task> handler, T e) {
-            foreach (Func<object, T, Task> fn in handler.GetInvocationList()) {
-                await fn(this, e);
+            if (handler != null) {
+                foreach (Func<object, T, Task> fn in handler.GetInvocationList()) {
+                    await fn(this, e);
+                }
             }
         }
 

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -6,6 +7,39 @@ using Xunit;
 namespace WebSocketStream.Tests {
     public class WebSocketStreamTest {
         private int PORT = 8080;
+
+        [Fact]
+        public async Task BasicClientServerTest() {
+            WebSocketServer server = new WebSocketServer();
+            TaskCompletionSource<WebSocketServer.ConnectedEventArgs> connected =
+                new TaskCompletionSource<WebSocketServer.ConnectedEventArgs>();
+            byte[] message = new byte[] { 100, 101, 102, 103 };
+
+            server.Connected += async (sender, e) => {
+                Stream socket = e.Stream;
+                byte[] buffer = new byte[1024];
+
+                int read = await socket.ReadAsync(buffer, 0, buffer.Length);
+
+                Assert.Equal(4, read);
+                Assert.Equal(message, buffer.Take(4).ToArray());
+
+                connected.SetResult(e);
+            };
+
+            Task listenTask = server.Listen(PORT);
+            Stream client = WebSocketStream.Connect($"ws://localhost:{PORT}");
+
+            await client.WriteAsync(message, 0, message.Length);
+            WebSocketServer.ConnectedEventArgs args = await connected.Task;
+
+            Assert.NotNull(args);
+
+            client.Dispose();
+            server.Dispose();
+
+            await listenTask;
+        }
 
         [Fact]
         public async Task ClientServerTest() {
