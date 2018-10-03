@@ -43,4 +43,4 @@ server.Connected += async (sender, e) {
 await server.Listen(8080);
 ```
 
-Since `System.Net.WebSockets` does not provide synchronous method for reading and writing to a WebSocket, the stream implementation uses the asynchronous equivalents in `Read(buffer, offset, count)` and `Write(buffer, offset, count)` and blocks the thread by calling `GetAwaiter().GetResult()`.
+Since `System.Net.WebSockets` does not provide synchronous methods for reading and writing to a WebSocket, the stream implementation uses the asynchronous equivalents in `Read(buffer, offset, count)` and `Write(buffer, offset, count)` and blocks the thread by calling `GetAwaiter().GetResult()`.
