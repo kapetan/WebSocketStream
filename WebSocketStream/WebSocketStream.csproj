@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Stream interface implemented on top of System.Net.WebSockets</Description>
+    <Authors>Mirza Kapetanovic</Authors>
+    <Version>1.0.0</Version>
+    <PackageTags>websocket stream</PackageTags>
+    <PackageProjectUrl>https://github.com/kapetan/WebSocketStream</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>
