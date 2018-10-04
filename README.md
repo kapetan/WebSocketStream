@@ -24,23 +24,13 @@ The server uses a `HttpListener` under the hood for listening to incoming reques
 ```C#
 using WSStream;
 
-WebSocketServer server = new WebSocketServer();
+WebSocketListener server = new WebSocketListener(8080);
+WebSocketStream socket = await server.AcceptWebSocket();
 
-// Fired before socket connects
-server.Requested += async (sender, e) {
-    HttpListenerRequest request = e.Request;
-};
-
-server.Connected += async (sender, e) {
-    WebSocketStream socket = e.Stream;
-    byte[] buffer = new byte[1024];
-
-    int read = await socket.ReadAsync(buffer, 0, buffer.Length);
-    await socket.WriteAsync(buffer, 0, read);
-    await socket.CloseAsync();
-};
-
-await server.Listen(8080);
+byte[] buffer = new byte[1024];
+int read = await socket.ReadAsync(buffer, 0, buffer.Length);
+await socket.WriteAsync(buffer, 0, read);
+await socket.CloseAsync();
 ```
 
 Since `System.Net.WebSockets` does not provide synchronous methods for reading and writing to a WebSocket, the stream implementation uses the asynchronous equivalents in `Read(buffer, offset, count)` and `Write(buffer, offset, count)` and blocks the thread by calling `GetAwaiter().GetResult()`.

@@ -97,7 +97,7 @@ namespace WSStream {
         }
 
         private void ThrowIfDisposed() {
-            if (socket == null) throw new ObjectDisposedException("WebSocketStream");
+            if (socket == null) throw new ObjectDisposedException("socket");
         }
     }
 }
