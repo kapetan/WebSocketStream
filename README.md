@@ -25,7 +25,7 @@ The server uses a `HttpListener` under the hood for listening to incoming reques
 using WSStream;
 
 WebSocketListener server = new WebSocketListener(8080);
-WebSocketStream socket = await server.AcceptWebSocket();
+WebSocketStream socket = await server.AcceptWebSocketAsync();
 
 byte[] buffer = new byte[1024];
 int read = await socket.ReadAsync(buffer, 0, buffer.Length);

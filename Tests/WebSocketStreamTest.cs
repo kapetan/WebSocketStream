@@ -95,6 +95,7 @@ namespace WSStream.Tests {
 
             server.Start();
             Task<WebSocketStream> task = server.AcceptWebSocketAsync();
+
             server.Dispose();
 
             await Assert.ThrowsAsync<ObjectDisposedException>(() => task);
